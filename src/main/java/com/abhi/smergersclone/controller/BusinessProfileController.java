@@ -18,7 +18,7 @@ public class BusinessProfileController {
         this.businessProfileService = businessProfileService;
     }
 
-    @PostMapping (("/createProfile"))
+    @PostMapping (("/createBusinessProfile"))
     public ResponseEntity<BusinessProfileResponseDTO> createBusinessProfile(
             @Valid @RequestBody BusinessProfileRequestDTO requestDTO) {
         BusinessProfileResponseDTO responseDTO = businessProfileService.createBusinessProfile(requestDTO);

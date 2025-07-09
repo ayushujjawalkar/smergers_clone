@@ -25,7 +25,7 @@ public class FranchiseProfileController {
     }
 
     // Create Franchise Profile
-    @PostMapping
+    @PostMapping ("/createFranchiseProfile")
     public ResponseEntity<FranchiseProfileResponseDTO> createFranchiseProfile(
             @Valid @RequestBody FranchiseProfileRequestDTO requestDTO) {
         FranchiseProfileResponseDTO responseDTO = franchiseProfileService.createFranchiseProfile(requestDTO);
@@ -41,7 +41,7 @@ public class FranchiseProfileController {
     }
 
     // Get All Franchise Profiles
-    @GetMapping
+    @GetMapping ("/getAllFranchiseProfile")
     public ResponseEntity<List<FranchiseProfileResponseDTO>> getAllFranchiseProfiles() {
         List<FranchiseProfileResponseDTO> responseDTOs = franchiseProfileService.getAllFranchiseProfiles();
         return ResponseEntity.ok(responseDTOs);
