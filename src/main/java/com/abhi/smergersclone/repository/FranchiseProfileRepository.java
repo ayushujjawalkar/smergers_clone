@@ -7,7 +7,8 @@ import java.util.List;
 
 public interface FranchiseProfileRepository extends
         JpaRepository<FranchiseProfile, Long>,
-        FranchiseProfileCustomRepository {
+        FranchiseProfileCustomRepository
+{
 
     // Derived Query Methods
     List<FranchiseProfile> findByPaymentPlan(FranchiseProfile.PaymentPlan paymentPlan);
@@ -28,4 +29,15 @@ public interface FranchiseProfileRepository extends
             "ORDER BY fp.brand_name",
             nativeQuery = true)
     List<FranchiseProfile> findByHeadquarters(@Param("location") String location);
+
+    //new
+    // Custom search method
+    @Query("SELECT fp FROM FranchiseProfile fp WHERE " +
+            "(:brandName IS NULL OR fp.brandName LIKE %:brandName%) AND " +
+            "(:industry IS NULL OR fp.industry = :industry) AND " +
+            "(:opportunityType IS NULL OR fp.opportunityType = :opportunityType)")
+    List<FranchiseProfile> findByBrandNameContainingAndIndustryAndOpportunityType(
+            @Param("brandName") String brandName,
+            @Param("industry") String industry,
+            @Param("opportunityType") FranchiseProfile.OpportunityType opportunityType);
 }
