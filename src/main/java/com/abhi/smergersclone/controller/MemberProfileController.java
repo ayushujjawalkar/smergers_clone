@@ -1,10 +1,11 @@
 package com.abhi.smergersclone.controller;
 import com.abhi.smergersclone.dto.*;
 import com.abhi.smergersclone.entity.MemberProfile;
+import com.abhi.smergersclone.exception.FileStorageException;
+import com.abhi.smergersclone.exception.ResourceNotFoundException;
 import com.abhi.smergersclone.service.MemberProfileService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.annotations.Parameter;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -12,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Arrays;
 import java.util.List;
@@ -67,18 +69,32 @@ public class MemberProfileController {
             @RequestParam(required = false) Double maxInvestment,
             @PageableDefault(size = 10) Pageable pageable) {
 
+        // Convert string parameters to enums
+        MemberProfile.MemberType memberTypeEnum = null;
+        if (memberType != null && !memberType.isEmpty()) {
+            try {
+                memberTypeEnum = MemberProfile.MemberType.valueOf(memberType.toUpperCase());
+            } catch (IllegalArgumentException e) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid member type: " + memberType);
+            }
+        }
+
         List<MemberProfile.InterestType> interestTypes = null;
         if (interests != null && !interests.isEmpty()) {
-            interestTypes = Arrays.stream(interests.split(","))
-                    .map(String::trim)
-                    .map(String::toUpperCase)
-                    .map(MemberProfile.InterestType::valueOf)
-                    .collect(Collectors.toList());
+            try {
+                interestTypes = Arrays.stream(interests.split(","))
+                        .map(String::trim)
+                        .map(String::toUpperCase)
+                        .map(MemberProfile.InterestType::valueOf)
+                        .collect(Collectors.toList());
+            } catch (IllegalArgumentException e) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid interest type in: " + interests);
+            }
         }
 
         return ResponseEntity.ok(memberProfileService.searchMemberProfiles(
                 query,
-                memberType != null ? MemberProfile.MemberType.valueOf(memberType.toUpperCase()) : null,
+                memberTypeEnum,
                 interestTypes,
                 industries,
                 locations,
@@ -88,12 +104,26 @@ public class MemberProfileController {
         ));
     }
 
-    // Upload company logo
+//    // Upload company logo
+//    @PostMapping("/{id}/logo")
+//    public ResponseEntity<MemberProfileResponseDTO> uploadCompanyLogo(
+//            @PathVariable Long id,
+//            @RequestParam("file") MultipartFile file) {
+//        return ResponseEntity.ok(memberProfileService.uploadCompanyLogo(id, file));
+//    }
+
     @PostMapping("/{id}/logo")
     public ResponseEntity<MemberProfileResponseDTO> uploadCompanyLogo(
             @PathVariable Long id,
             @RequestParam("file") MultipartFile file) {
-        return ResponseEntity.ok(memberProfileService.uploadCompanyLogo(id, file));
+        try {
+            MemberProfileResponseDTO response = memberProfileService.uploadCompanyLogo(id, file);
+            return ResponseEntity.ok(response);
+        } catch (ResourceNotFoundException ex) {
+            return ResponseEntity.notFound().build();
+        } catch (FileStorageException ex) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     // Get dashboard statistics
@@ -101,16 +131,17 @@ public class MemberProfileController {
     public ResponseEntity<MemberProfileStatsDTO> getMemberProfileStats() {
         return ResponseEntity.ok(memberProfileService.getMemberProfileStats());
     }
-
-    // Upgrade membership plan
     @PatchMapping("/{id}/upgrade-plan")
     public ResponseEntity<MemberProfileResponseDTO> upgradeMembershipPlan(
             @PathVariable Long id,
             @RequestParam String plan) {
-        return ResponseEntity.ok(memberProfileService.upgradeMembershipPlan(
-                id,
-                MemberProfile.MembershipPlan.valueOf(plan.toUpperCase())
-        ));
+        try {
+            MemberProfile.MembershipPlanType planType =
+                    MemberProfile.MembershipPlanType.valueOf(plan.toUpperCase());
+            return ResponseEntity.ok(memberProfileService.upgradeMembershipPlan(id, planType));
+        } catch (IllegalArgumentException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid plan type: " + plan);
+        }
     }
 }
 

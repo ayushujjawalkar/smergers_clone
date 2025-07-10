@@ -7,6 +7,8 @@ import java.util.List;
 @Data
 public class FranchiseProfileRequestDTO {
 
+
+
     // ========== Confidential Information Section ==========
     private String authorizedPersonName;
     private String officialEmail;
@@ -51,5 +53,8 @@ public class FranchiseProfileRequestDTO {
         private String royaltyDetails;
         private Double averageMonthlySales;
         private Double averageEBITDA;
+    }
+    public List<FranchiseFormatDTO> getFranchiseFormats() {
+        return this.franchiseFormats;
     }
 }
