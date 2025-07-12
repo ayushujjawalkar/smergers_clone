@@ -18,14 +18,14 @@ public class BusinessProfileController {
         this.businessProfileService = businessProfileService;
     }
 
-    @PostMapping
+    @PostMapping (("/createBusinessProfile"))
     public ResponseEntity<BusinessProfileResponseDTO> createBusinessProfile(
             @Valid @RequestBody BusinessProfileRequestDTO requestDTO) {
         BusinessProfileResponseDTO responseDTO = businessProfileService.createBusinessProfile(requestDTO);
         return new ResponseEntity<>(responseDTO, HttpStatus.CREATED);
     }
 
-    @GetMapping
+    @GetMapping ("/getAllBusinessProfile")
     public ResponseEntity<List<BusinessProfileResponseDTO>> getAllBusinessProfiles() {
         List<BusinessProfileResponseDTO> profiles = businessProfileService.getAllBusinessProfiles();
         return ResponseEntity.ok(profiles);
