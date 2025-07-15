@@ -1,137 +1,27 @@
-//package com.abhi.smergersclone.entity;
-//import jakarta.persistence.*;
-//import lombok.Data;
-//import org.hibernate.annotations.CreationTimestamp;
-//import org.hibernate.annotations.UpdateTimestamp;
-//import java.time.LocalDateTime;
-//import java.util.List;
-//
-//@Entity
-//@Table(name = "member_profiles")
-//@Data
-//public class MemberProfile {
-//
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    private Long id;
-//
-//    // ========== Confidential Information Section ==========
-//    @Column(nullable = false)
-//    private String fullName;
-//
-//    @Column(nullable = false)
-//    private String mobileNumber;
-//
-//    @Column(nullable = false)
-//    private String officialEmail;
-//
-//    // ========== Requirements Section ==========
-//    @ElementCollection
-//    @Enumerated(EnumType.STRING)
-//    private List<InterestType> interests;
-//
-//    @Enumerated(EnumType.STRING)
-//    private MemberType memberType;
-//
-//    @ElementCollection
-//    private List<String> interestedIndustries;
-//
-//    @ElementCollection
-//    private List<String> interestedLocations;
-//
-//    @Embedded
-//    private InvestmentRange investmentRange;
-//
-//
-//    private String currentLocation;
-//    private String timezone = "Asia/Kolkata";
-//
-//    // ========== Company Information Section ==========
-//    private String designation;
-//    private String companyWebsiteOrLinkedIn;
-//    private String companyIndustryActivity;
-//
-//    @Column(length = 2000)
-//    private String businessFactors;
-//
-//    @Column(length = 2000)
-//    private String aboutCompany;
-//
-//    // ========== Documents & Proof Section ==========
-//    private String companyLogoPath;
-//    private String corporateProfilePath;
-//    private String proofOfBusinessPath;
-//
-//    // ========== Plan Section ==========
-//    @Enumerated(EnumType.STRING)
-//    private MembershipPlan membershipPlan = MembershipPlan.ACTIVE;
-//
-//    private Integer introductionCredits = 0;
-//
-//    // ========== Audit Fields ==========
-//    @CreationTimestamp
-//    private LocalDateTime createdAt;
-//
-//    @UpdateTimestamp
-//    private LocalDateTime updatedAt;
-//
-//    // ========== Enums ==========
-//    public enum InterestType {
-//        ACQUIRING_BUSINESS,
-//        INVESTING_IN_BUSINESS,
-//        LENDING_TO_BUSINESS,
-//        BUYING_ASSETS,
-//        FRANCHISE_DISTRIBUTORSHIP
-//    }
-//
-//    public enum MemberType {
-//        INDIVIDUAL,
-//        COMPANY,
-//        INVESTOR,
-//        LENDER,
-//        FRANCHISEE
-//    }
-//
-//    public enum MembershipPlan {
-//        ACTIVE,
-//        PREMIUM
-//    }
-//
-//    // ========== Embedded Classes ==========
-//    @Embeddable
-//    @Data
-//    public static class InvestmentRange {
-//        private String currency = "INR";
-//        private Double minAmount;
-//        private Double maxAmount;
-//    }
-//}
 package com.abhi.smergersclone.entity;
-
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-@Getter
-@Setter
+
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 @Entity
 @Table(name = "member_profiles")
-@Data
 public class MemberProfile {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // ========== Confidential Information Section ==========
+    // Confidential Information
     @Column(nullable = false)
     private String fullName;
 
@@ -141,7 +31,7 @@ public class MemberProfile {
     @Column(nullable = false)
     private String officialEmail;
 
-    // ========== Requirements Section ==========
+    // Requirements
     @ElementCollection
     @Enumerated(EnumType.STRING)
     private List<InterestType> interests;
@@ -150,19 +40,22 @@ public class MemberProfile {
     private MemberType memberType;
 
     @ElementCollection
+    @CollectionTable(name = "member_interested_industries", joinColumns = @JoinColumn(name = "member_id"))
     private List<String> interestedIndustries;
 
     @ElementCollection
+    @CollectionTable(name = "member_interested_locations", joinColumns = @JoinColumn(name = "member_id"))
     private List<String> interestedLocations;
 
     @Embedded
     private InvestmentRange investmentRange;
 
     private String currentLocation;
+
     @Builder.Default
     private String timezone = "Asia/Kolkata";
 
-    // ========== Company Information Section ==========
+    // Company Info
     private String designation;
     private String companyWebsiteOrLinkedIn;
     private String companyIndustryActivity;
@@ -173,23 +66,23 @@ public class MemberProfile {
     @Column(length = 2000)
     private String aboutCompany;
 
-    // ========== Documents & Proof Section ==========
+    // Documents
     private String companyLogoPath;
     private String corporateProfilePath;
     private String proofOfBusinessPath;
 
-    // ========== Enhanced Plan Section ==========
+    // Membership Details
     @Embedded
     private MembershipPlanDetails membershipPlanDetails;
 
-    // ========== Audit Fields ==========
+    // Audit Fields
     @CreationTimestamp
     private LocalDateTime createdAt;
 
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-    // ========== Enums ==========
+    // Enums
     public enum InterestType {
         ACQUIRING_BUSINESS,
         INVESTING_IN_BUSINESS,
@@ -199,55 +92,100 @@ public class MemberProfile {
     }
 
     public enum MemberType {
-        INDIVIDUAL,
-        COMPANY,
-        INVESTOR,
-        LENDER,
-        FRANCHISEE
+        INDIVIDUAL, COMPANY, INVESTOR, LENDER, FRANCHISEE
     }
 
     public enum MembershipPlanType {
-        FREE,
-        ACTIVE,
-        PREMIUM
+        ACTIVE("Active Plan", 10, 36, List.of(
+                "Speedy profile activation within 1 business day",
+                "Profile marked as 'Premium' and gets higher visibility",
+                "10 introduction credits to connect with businesses and franchises",
+                "Connect with businesses which send you a proposal for free",
+                "Access to metrics of all businesses to evaluate the opportunity",
+                "Connect and instantly access Business Name, if business has allowed",
+                "Connect and instantly access Contact Details, if business has allowed",
+                "Quick email support for your queries",
+                "Plan valid till introduction credits are exhausted or for 3 years, whichever is earlier"
+        )),
+        PREMIUM("Premium Plan", 25, 36, List.of(
+                "Speedy profile activation within 1 business day",
+                "Profile marked as 'Premium' and gets higher visibility",
+                "25 introduction credits to connect with businesses and franchises",
+                "Connect with businesses which send you a proposal for free",
+                "Access to metrics of all businesses to evaluate the opportunity",
+                "Connect and instantly access Business Name, if business has allowed",
+                "Connect and instantly access Contact Details, if business has allowed",
+                "Quick email support for your queries",
+                "Plan valid till introduction credits are exhausted or for 3 years, whichever is earlier"
+        )),
+        YEARLY("Yearly Plan", -1, 12, List.of(
+                "Speedy profile activation within 1 business day",
+                "Profile marked as 'Premium' and gets higher visibility",
+                "Unlimited introduction credits to connect with businesses and franchises subject to FUP",
+                "Connect with businesses which send you a proposal for free",
+                "Access to metrics of all businesses to evaluate the opportunity",
+                "Connect and instantly access Business Name, if business has allowed",
+                "Connect and instantly access Contact Details, if business has allowed",
+                "Quick email support for your queries",
+                "Valid for a period of 1 year"
+        ));
+
+
+        private final String displayName;
+        private final int credits;
+        private final int validityInMonths;
+        private final List<String> benefits;
+
+        MembershipPlanType(String displayName, int credits, int validityInMonths, List<String> benefits) {
+            this.displayName = displayName;
+            this.credits = credits;
+            this.validityInMonths = validityInMonths;
+            this.benefits = benefits;
+        }
+
+        public String getDisplayName() { return displayName; }
+        public int getCredits() { return credits; }
+        public int getValidityInMonths() { return validityInMonths; }
+        public List<String> getBenefits() { return benefits; }
     }
 
-    // ========== Embedded Classes ==========
+    // Embedded Classes
+    @Builder
     @Embeddable
     @Data
     public static class InvestmentRange {
+        @Builder.Default
         private String currency = "INR";
         private Double minAmount;
         private Double maxAmount;
     }
 
+
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
     @Embeddable
     @Data
     public static class MembershipPlanDetails {
         @Enumerated(EnumType.STRING)
-        private MembershipPlanType planType = MembershipPlanType.FREE;
-
+        private MembershipPlanType planType = MembershipPlanType.ACTIVE;
         private LocalDate activationDate;
         private LocalDate expiryDate;
-        private Integer remainingCredits = 0;
+        private Integer remainingCredits;
         private BigDecimal amountPaid = BigDecimal.ZERO;
-
-        @Column(length = 1000)
-        private String benefits; // JSON-formatted benefits
 
         public boolean isPlanActive() {
             return expiryDate != null && !LocalDate.now().isAfter(expiryDate);
         }
-
-        public boolean hasAvailableCredits() {
-            return remainingCredits != null && remainingCredits > 0;
-        }
     }
 
-    // Helper method to check premium features access
     public boolean hasPremiumAccess() {
         return membershipPlanDetails != null &&
-                membershipPlanDetails.getPlanType() == MembershipPlanType.PREMIUM &&
                 membershipPlanDetails.isPlanActive();
     }
+
+
+
+
+
 }

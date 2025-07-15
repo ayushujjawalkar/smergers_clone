@@ -16,7 +16,4 @@ public interface FranchiseProfileService {
     List<FranchiseProfileResponseDTO> getAllFranchiseProfiles();
 
     void deleteFranchiseProfile(Long id);
-
-
-
 }
