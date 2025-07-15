@@ -1,5 +1,4 @@
 package com.abhi.smergersclone.dto;
-import com.abhi.smergersclone.entity.FranchiseProfile;
 import lombok.Data;
 import java.util.Date;
 import java.util.List;
@@ -7,17 +6,15 @@ import java.util.List;
 @Data
 public class FranchiseProfileRequestDTO {
 
-
-
-    // ========== Confidential Information Section ==========
+    // Confidential Information
     private String authorizedPersonName;
     private String officialEmail;
     private String mobileNumber;
 
-    // ========== Brand Details Section ==========
+    // Brand Details
     private String brandName;
     private String website;
-    private FranchiseProfile.OpportunityType opportunityType;
+    private String opportunityType;  // Enum as String
     private String industry;
     private String aboutBrand;
     private String productsServices;
@@ -29,16 +26,11 @@ public class FranchiseProfileRequestDTO {
     private String franchiseProcedure;
     private String expansionLocations;
 
-    // ========== Franchise Formats Section ==========
+    // Franchise Formats
     private List<FranchiseFormatDTO> franchiseFormats;
 
-    // ========== Proof Documents Section ==========
-    private List<String> businessPhotosPaths;
-    private List<String> brochuresDocumentsPaths;
-    private String proofOfBusinessPath;
-
-    // ========== Payment Plan Section ==========
-    private FranchiseProfile.PaymentPlan paymentPlan;
+    // Payment Plan
+    private String paymentPlan;  // Enum as String
 
     @Data
     public static class FranchiseFormatDTO {
@@ -53,8 +45,5 @@ public class FranchiseProfileRequestDTO {
         private String royaltyDetails;
         private Double averageMonthlySales;
         private Double averageEBITDA;
-    }
-    public List<FranchiseFormatDTO> getFranchiseFormats() {
-        return this.franchiseFormats;
     }
 }

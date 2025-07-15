@@ -109,7 +109,10 @@
 package com.abhi.smergersclone.entity;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -117,12 +120,13 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-
+@Getter
+@Setter
+@Builder
 @Entity
 @Table(name = "member_profiles")
 @Data
 public class MemberProfile {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -155,6 +159,7 @@ public class MemberProfile {
     private InvestmentRange investmentRange;
 
     private String currentLocation;
+    @Builder.Default
     private String timezone = "Asia/Kolkata";
 
     // ========== Company Information Section ==========

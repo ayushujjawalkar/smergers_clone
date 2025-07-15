@@ -1,43 +1,27 @@
 package com.abhi.smergersclone.repository;
 import com.abhi.smergersclone.entity.FranchiseProfile;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 import java.util.List;
 
-public interface FranchiseProfileRepository extends
-        JpaRepository<FranchiseProfile, Long>,
-        FranchiseProfileCustomRepository
-{
+@Repository
+public interface FranchiseProfileRepository extends JpaRepository<FranchiseProfile, Long> {
 
-    // Derived Query Methods
+    // Find by Brand Name
+    List<FranchiseProfile> findByBrandNameContainingIgnoreCase(String brandName);
+
+    // Find by Industry
+    List<FranchiseProfile> findByIndustryContainingIgnoreCase(String industry);
+
+    // Find by Opportunity Type (Franchise, Dealership, etc.)
+    List<FranchiseProfile> findByOpportunityType(FranchiseProfile.OpportunityType opportunityType);
+
+    // Find by Payment Plan (Premium, Professional)
     List<FranchiseProfile> findByPaymentPlan(FranchiseProfile.PaymentPlan paymentPlan);
 
-    List<FranchiseProfile> findByIndustry(String industry);
+    // Find by Headquarters Location
+    List<FranchiseProfile> findByHeadquartersLocationContainingIgnoreCase(String location);
 
-    // Custom JPQL Query
-    @Query("SELECT fp FROM FranchiseProfile fp WHERE " +
-            "fp.globalOutletsCount >= :minOutlets AND " +
-            "fp.industry = :industry")
-    List<FranchiseProfile> findEstablishedInIndustry(
-            @Param("minOutlets") int minOutlets,
-            @Param("industry") String industry);
-
-    // Native SQL Query
-    @Query(value = "SELECT * FROM franchise_profiles fp " +
-            "WHERE fp.headquarters_location = :location " +
-            "ORDER BY fp.brand_name",
-            nativeQuery = true)
-    List<FranchiseProfile> findByHeadquarters(@Param("location") String location);
-
-    //new
-    // Custom search method
-    @Query("SELECT fp FROM FranchiseProfile fp WHERE " +
-            "(:brandName IS NULL OR fp.brandName LIKE %:brandName%) AND " +
-            "(:industry IS NULL OR fp.industry = :industry) AND " +
-            "(:opportunityType IS NULL OR fp.opportunityType = :opportunityType)")
-    List<FranchiseProfile> findByBrandNameContainingAndIndustryAndOpportunityType(
-            @Param("brandName") String brandName,
-            @Param("industry") String industry,
-            @Param("opportunityType") FranchiseProfile.OpportunityType opportunityType);
+    // Combine Filters (Industry + PaymentPlan)
+    List<FranchiseProfile> findByIndustryAndPaymentPlan(String industry, FranchiseProfile.PaymentPlan paymentPlan);
 }

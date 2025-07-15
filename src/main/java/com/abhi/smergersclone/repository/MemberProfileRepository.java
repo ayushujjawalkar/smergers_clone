@@ -88,4 +88,7 @@ public interface MemberProfileRepository extends JpaRepository<MemberProfile, Lo
             LocalDate date);
 
     long countByMembershipPlanDetails_ExpiryDateGreaterThanEqual(LocalDate date);
+
+
+
 }
