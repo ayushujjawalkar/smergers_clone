@@ -153,6 +153,8 @@ public class MemberProfile {
     @Builder
     @Embeddable
     @Data
+    @NoArgsConstructor // Add this
+    @AllArgsConstructor // Add this if you want constructor with all fields
     public static class InvestmentRange {
         @Builder.Default
         private String currency = "INR";

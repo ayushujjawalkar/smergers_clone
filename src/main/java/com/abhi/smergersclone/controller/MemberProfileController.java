@@ -19,7 +19,7 @@ public class MemberProfileController {
     /**
      * Create new member profile
      */
-    @PostMapping
+    @PostMapping ("/createMemberProfile")
     public ResponseEntity<MemberProfileResponseDTO> createProfile(@RequestBody MemberProfileRequestDTO requestDTO) {
         MemberProfileResponseDTO response = memberProfileService.createProfile(requestDTO);
         return new ResponseEntity<>(response, HttpStatus.CREATED);

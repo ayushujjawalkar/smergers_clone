@@ -42,6 +42,7 @@ public class SecurityConfig {
                                 "/api/otp/**",
                                 "/api/otp/generate/**",
                                 "/api/listings/**"
+                                , "/api/member-profiles/**"
                         )
                         .permitAll()
                         .anyRequest().authenticated()
