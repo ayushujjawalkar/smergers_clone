@@ -180,4 +180,13 @@ public class BusinessProfileService {
                 document.getUploadedAt()
         );
     }
+
+    @Transactional(readOnly = true)
+    public List<BusinessProfileResponseDTO> filterBusinessProfiles(String businessType, String industry, String location) {
+        List<BusinessProfile> profiles = businessProfileRepository.filterProfiles(businessType, industry, location);
+        return profiles.stream()
+                .map(this::mapToResponseDTO)
+                .collect(Collectors.toList());
+    }
+
 }

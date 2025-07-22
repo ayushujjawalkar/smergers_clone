@@ -1,6 +1,8 @@
 package com.abhi.smergersclone.controller;
 import com.abhi.smergersclone.dto.BusinessProfileRequestDTO;
 import com.abhi.smergersclone.dto.BusinessProfileResponseDTO;
+import com.abhi.smergersclone.entity.BusinessProfile;
+import com.abhi.smergersclone.repository.BusinessProfileRepository;
 import com.abhi.smergersclone.service.BusinessProfileService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -13,6 +15,7 @@ import java.util.List;
 public class BusinessProfileController {
 
     private final BusinessProfileService businessProfileService;
+
 
     public BusinessProfileController(BusinessProfileService businessProfileService) {
         this.businessProfileService = businessProfileService;
@@ -73,5 +76,13 @@ public class BusinessProfileController {
     public ResponseEntity<Void> deleteDocument(@PathVariable Long documentId) {
         businessProfileService.deleteDocument(documentId);
         return ResponseEntity.noContent().build();
+    }
+    //filter business profile by type,industry and location
+    @GetMapping("/filter")
+    public List<BusinessProfileResponseDTO> filterBusinessProfiles(
+            @RequestParam(required = false) String businessType,
+            @RequestParam(required = false) String industry,
+            @RequestParam(required = false) String location) {
+        return businessProfileService.filterBusinessProfiles(businessType, industry, location);
     }
 }
