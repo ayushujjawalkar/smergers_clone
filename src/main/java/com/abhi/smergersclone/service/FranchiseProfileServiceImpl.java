@@ -6,6 +6,7 @@ import com.abhi.smergersclone.repository.FranchiseProfileRepository;
 import com.abhi.smergersclone.repository.PlanFeatureRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -187,5 +188,15 @@ public class FranchiseProfileServiceImpl implements FranchiseProfileService {
                 .ifPresent(planFeature -> dto.setPlanFeatures(planFeature.getFeatures()));
 
         return dto;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<FranchiseProfile> filterFranchiseProfiles(
+            FranchiseProfile.OpportunityType opportunityType,
+            String industry,
+            String headquartersLocation) {
+
+        return repository.filterProfiles(opportunityType, industry, headquartersLocation);
     }
 }

@@ -2,6 +2,7 @@ package com.abhi.smergersclone.service;
 
 import com.abhi.smergersclone.dto.FranchiseProfileRequestDTO;
 import com.abhi.smergersclone.dto.FranchiseProfileResponseDTO;
+import com.abhi.smergersclone.entity.FranchiseProfile;
 
 import java.util.List;
 
@@ -16,4 +17,10 @@ public interface FranchiseProfileService {
     List<FranchiseProfileResponseDTO> getAllFranchiseProfiles();
 
     void deleteFranchiseProfile(Long id);
+
+    // ✅ Filter method
+    List<FranchiseProfile> filterFranchiseProfiles(
+            FranchiseProfile.OpportunityType opportunityType,
+            String industry,
+            String headquartersLocation);
 }

@@ -1,6 +1,7 @@
 package com.abhi.smergersclone.controller;
 import com.abhi.smergersclone.dto.FranchiseProfileRequestDTO;
 import com.abhi.smergersclone.dto.FranchiseProfileResponseDTO;
+import com.abhi.smergersclone.entity.FranchiseProfile;
 import com.abhi.smergersclone.service.FranchiseProfileService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -65,5 +66,12 @@ public class FranchiseProfileController {
         return ResponseEntity.ok("Franchise Profile deleted successfully.");
     }
 
+    @GetMapping("/filter")
+    public List<FranchiseProfile> filterProfiles(
+            @RequestParam(required = false) FranchiseProfile.OpportunityType opportunityType,
+            @RequestParam(required = false) String industry,
+            @RequestParam(required = false) String headquartersLocation) {
+        return franchiseProfileService.filterFranchiseProfiles(opportunityType, industry, headquartersLocation);
+    }
 
 }
