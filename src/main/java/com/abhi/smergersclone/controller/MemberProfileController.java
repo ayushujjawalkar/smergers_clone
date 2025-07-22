@@ -48,7 +48,7 @@ public class MemberProfileController {
     /**
      * Get all profiles with pagination
      */
-    @GetMapping
+    @GetMapping("/getAllProfile")
     public ResponseEntity<Page<MemberProfileResponseDTO>> getAllProfiles(Pageable pageable) {
         Page<MemberProfileResponseDTO> response = memberProfileService.getAllProfiles(pageable);
         return ResponseEntity.ok(response);

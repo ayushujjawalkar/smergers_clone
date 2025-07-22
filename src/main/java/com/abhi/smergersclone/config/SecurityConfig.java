@@ -42,7 +42,9 @@ public class SecurityConfig {
                                 "/api/otp/**",
                                 "/api/otp/generate/**",
                                 "/api/listings/**"
-                                , "/api/member-profiles/**"
+                                , "/api/member-profiles/**",
+                                "/api/business-profiles/**",
+                                "/api/franchise-profiles/**"
                         )
                         .permitAll()
                         .anyRequest().authenticated()

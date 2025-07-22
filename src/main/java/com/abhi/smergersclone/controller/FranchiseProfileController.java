@@ -20,7 +20,7 @@ public class FranchiseProfileController {
     /**
      * Create a new Franchise Profile
      */
-    @PostMapping
+    @PostMapping("/createFranchiseProfile")
     public ResponseEntity<FranchiseProfileResponseDTO> createFranchiseProfile(
             @RequestBody FranchiseProfileRequestDTO requestDTO) {
         FranchiseProfileResponseDTO response = franchiseProfileService.createFranchiseProfile(requestDTO);
