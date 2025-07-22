@@ -185,9 +185,4 @@ public class MemberProfile {
         return membershipPlanDetails != null &&
                 membershipPlanDetails.isPlanActive();
     }
-
-
-
-
-
 }

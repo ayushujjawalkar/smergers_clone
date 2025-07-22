@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -79,4 +80,43 @@ public class MemberProfileServiceImpl implements MemberProfileService {
 
         return MemberProfileMapper.mapToResponse(entity);
     }
+
+    @Override
+    public Page<MemberProfileResponseDTO> getProfilesByInterest(MemberProfile.InterestType interestType, Pageable pageable) {
+        Page<MemberProfile> profiles = memberProfileRepository.findByInterestsContaining(interestType, pageable);
+
+        return profiles.map(MemberProfileMapper::mapToResponse);
+    }
+
+    @Override
+    public Page<MemberProfileResponseDTO> getProfilesByMemberType(MemberProfile.MemberType memberType, Pageable pageable) {
+        Page<MemberProfile> profiles = memberProfileRepository.findByMemberType(memberType, pageable);
+        return profiles.map(MemberProfileMapper::mapToResponse);
+    }
+
+    @Override
+    public List<MemberProfileResponseDTO> filterByLocation(String location, boolean searchInInterestedLocations) {
+        List<MemberProfile> profiles;
+
+        if (searchInInterestedLocations) {
+            profiles = memberProfileRepository.findByInterestedLocation(location);
+        } else {
+            profiles = memberProfileRepository.findByCurrentLocationIgnoreCase(location);
+        }
+
+        return profiles.stream()
+                .map(MemberProfileMapper::mapToResponse)
+                .toList();
+    }
+
+
+    @Override
+    public List<MemberProfileResponseDTO> filterByIndustry(String industry) {
+        List<MemberProfile> profiles = memberProfileRepository.findByInterestedIndustry(industry);
+        return profiles.stream()
+                .map(MemberProfileMapper::mapToResponse)
+                .toList();
+    }
+
+
 }
