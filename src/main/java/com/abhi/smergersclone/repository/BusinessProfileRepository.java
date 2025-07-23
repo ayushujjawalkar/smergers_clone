@@ -32,4 +32,7 @@ public interface BusinessProfileRepository extends JpaRepository<BusinessProfile
 //find by verified profile
     List<BusinessProfile> findByVerifiedTrue(); // For verified profiles only
 
+    @Query("SELECT b FROM BusinessProfile b WHERE LOWER(b.name) LIKE LOWER(CONCAT('%', :keyword, '%'))")
+    List<BusinessProfile> searchBusinessProfiles(@Param("keyword") String keyword);
+
 }

@@ -45,4 +45,8 @@ public interface MemberProfileRepository extends JpaRepository<MemberProfile, Lo
     void incrementClickCount(@Param("id") Long id);
 
     List<MemberProfile> findByVerifiedTrue();
+
+    @Query("SELECT m FROM MemberProfile m WHERE LOWER(m.fullName) LIKE LOWER(CONCAT('%', :keyword, '%'))")
+    List<MemberProfile> searchMemberProfiles(@Param("keyword") String keyword);
+
 }

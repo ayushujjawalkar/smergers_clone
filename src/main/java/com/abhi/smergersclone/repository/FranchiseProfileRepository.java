@@ -49,4 +49,7 @@ public interface FranchiseProfileRepository extends JpaRepository<FranchiseProfi
 
     List<FranchiseProfile> findByVerifiedTrue(); // ✅ To get only verified profiles
 
+    @Query("SELECT f FROM FranchiseProfile f WHERE LOWER(f.brandName) LIKE LOWER(CONCAT('%', :keyword, '%'))")
+    List<FranchiseProfile> searchFranchiseProfiles(@Param("keyword") String keyword);
+
 }
