@@ -103,5 +103,9 @@ public class MemberProfileController {
         return ResponseEntity.ok(result);
     }
 
-
+    @PostMapping("/{id}/click")
+    public ResponseEntity<String> incrementClick(@PathVariable Long id) {
+        memberProfileService.incrementClick(id);
+        return ResponseEntity.ok("Member profile click count updated successfully");
+    }
 }

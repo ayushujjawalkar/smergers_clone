@@ -55,6 +55,9 @@ public class MemberProfile {
     @Builder.Default
     private String timezone = "Asia/Kolkata";
 
+    //click count
+    private Long clickCount = 0L; // Default value
+
     // Company Info
     private String designation;
     private String companyWebsiteOrLinkedIn;

@@ -28,6 +28,7 @@ public interface MemberProfileService {
 
     List<MemberProfileResponseDTO> filterByIndustry(String industry);
 
+    void incrementClick(Long profileId);
 
 }
 

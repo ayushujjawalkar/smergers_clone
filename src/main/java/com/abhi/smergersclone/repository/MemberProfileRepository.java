@@ -4,6 +4,7 @@ import com.abhi.smergersclone.entity.MemberProfile;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -39,4 +40,7 @@ public interface MemberProfileRepository extends JpaRepository<MemberProfile, Lo
     @Query("SELECT m FROM MemberProfile m JOIN m.interestedIndustries i WHERE LOWER(i) = LOWER(:industry)")
     List<MemberProfile> findByInterestedIndustry(@Param("industry") String industry);
 
+    @Modifying
+    @Query("UPDATE MemberProfile m SET m.clickCount = m.clickCount + 1 WHERE m.id = :id")
+    void incrementClickCount(@Param("id") Long id);
 }

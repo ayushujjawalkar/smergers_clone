@@ -118,5 +118,9 @@ public class MemberProfileServiceImpl implements MemberProfileService {
                 .toList();
     }
 
+    @Override
+    public void incrementClick(Long profileId) {
+        memberProfileRepository.incrementClickCount(profileId);
+    }
 
 }
