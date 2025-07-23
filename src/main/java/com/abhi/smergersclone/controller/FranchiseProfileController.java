@@ -78,5 +78,12 @@ public class FranchiseProfileController {
         franchiseProfileService.incrementClick(id);
         return ResponseEntity.ok("Click count updated successfully");
     }
+    // GET /franchise-profiles/filterByInvestmentRange?min=500000&max=1500000
+    @GetMapping("/filterByInvestmentRange")
+    public ResponseEntity<List<FranchiseProfile>> filterProfiles(
+            @RequestParam Double min,
+            @RequestParam Double max) {
+        return ResponseEntity.ok(franchiseProfileService.filterByInvestmentRange(min, max));
+    }
 
 }

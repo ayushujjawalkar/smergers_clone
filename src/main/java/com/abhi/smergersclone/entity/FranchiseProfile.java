@@ -13,7 +13,9 @@ public class FranchiseProfile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+//for filter of investment range
+private Double investmentRangeMin; // Minimum investment
+    private Double investmentRangeMax; // Maximum investment
     // ========== Confidential Information Section ==========
     private String authorizedPersonName;
     private String officialEmail;

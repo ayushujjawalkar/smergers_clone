@@ -41,4 +41,9 @@ public interface FranchiseProfileRepository extends JpaRepository<FranchiseProfi
     @Modifying
     @Query("UPDATE FranchiseProfile f SET f.clickCount = f.clickCount + 1 WHERE f.id = :id")
     void incrementClickCount(@Param("id") Long id);
+
+    //for filter investment range
+    @Query("SELECT f FROM FranchiseProfile f WHERE " +
+            "(f.investmentRangeMin >= :min AND f.investmentRangeMax <= :max)")
+    List<FranchiseProfile> findByInvestmentRange(@Param("min") Double min, @Param("max") Double max);
 }

@@ -68,6 +68,11 @@ public class FranchiseProfileServiceImpl implements FranchiseProfileService {
         repository.incrementClickCount(profileId);
     }
 
+    @Override
+    public List<FranchiseProfile> filterByInvestmentRange(Double min, Double max) {
+        return repository.findByInvestmentRange(min, max);
+    }
+
     // ===== Mapping Methods =====
 
     private FranchiseProfile mapToEntity(FranchiseProfileRequestDTO dto) {
