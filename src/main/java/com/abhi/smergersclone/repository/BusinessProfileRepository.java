@@ -2,6 +2,7 @@ package com.abhi.smergersclone.repository;
 
 import com.abhi.smergersclone.entity.BusinessProfile;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -17,4 +18,8 @@ public interface BusinessProfileRepository extends JpaRepository<BusinessProfile
             @Param("businessType") String businessType,
             @Param("industry") String industry,
             @Param("location") String location);
+
+    @Modifying
+    @Query("UPDATE BusinessProfile b SET b.clickCount = b.clickCount + 1 WHERE b.id = :id")
+    void incrementClickCount(@Param("id") Long id);
 }

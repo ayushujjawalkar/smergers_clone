@@ -39,7 +39,7 @@ public class BusinessProfile {
 
     @Column(nullable = false)
     private String mobile;
-
+    private Long clickCount = 0L; // Initialize with 0
     private String businessType;
     private LocalDate businessEstablished;
     private String industry;

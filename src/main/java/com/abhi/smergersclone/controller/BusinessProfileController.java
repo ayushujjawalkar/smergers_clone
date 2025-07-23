@@ -85,4 +85,10 @@ public class BusinessProfileController {
             @RequestParam(required = false) String location) {
         return businessProfileService.filterBusinessProfiles(businessType, industry, location);
     }
+
+    @PostMapping("/{id}/click")
+    public ResponseEntity<String> incrementClick(@PathVariable Long id) {
+        businessProfileService.incrementClick(id);
+        return ResponseEntity.ok("Business profile click count updated successfully");
+    }
 }

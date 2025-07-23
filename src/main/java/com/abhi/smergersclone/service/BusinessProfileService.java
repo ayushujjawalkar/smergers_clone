@@ -188,5 +188,9 @@ public class BusinessProfileService {
                 .map(this::mapToResponseDTO)
                 .collect(Collectors.toList());
     }
+    @Transactional
+    public void incrementClick(Long profileId) {
+        businessProfileRepository.incrementClickCount(profileId);
+    }
 
 }
