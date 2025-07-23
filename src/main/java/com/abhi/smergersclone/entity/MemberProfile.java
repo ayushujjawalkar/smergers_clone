@@ -49,6 +49,8 @@ public class MemberProfile {
 
     @Embedded
     private InvestmentRange investmentRange;
+    private boolean verified = false; // ✅ New field
+
 
     private String currentLocation;
 

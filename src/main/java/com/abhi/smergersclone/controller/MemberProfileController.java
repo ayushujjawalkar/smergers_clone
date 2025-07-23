@@ -108,4 +108,13 @@ public class MemberProfileController {
         memberProfileService.incrementClick(id);
         return ResponseEntity.ok("Member profile click count updated successfully");
     }
+    @PutMapping("/{id}/verify")
+    public ResponseEntity<MemberProfile> verifyProfile(@PathVariable Long id) {
+        return ResponseEntity.ok(memberProfileService.verifyProfile(id));
+    }
+
+    @PutMapping("/{id}/unverify")
+    public ResponseEntity<MemberProfile> unverifyProfile(@PathVariable Long id) {
+        return ResponseEntity.ok(memberProfileService.unverifyProfile(id));
+    }
 }

@@ -43,4 +43,6 @@ public interface MemberProfileRepository extends JpaRepository<MemberProfile, Lo
     @Modifying
     @Query("UPDATE MemberProfile m SET m.clickCount = m.clickCount + 1 WHERE m.id = :id")
     void incrementClickCount(@Param("id") Long id);
+
+    List<MemberProfile> findByVerifiedTrue();
 }

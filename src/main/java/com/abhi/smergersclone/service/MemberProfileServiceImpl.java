@@ -122,5 +122,20 @@ public class MemberProfileServiceImpl implements MemberProfileService {
     public void incrementClick(Long profileId) {
         memberProfileRepository.incrementClickCount(profileId);
     }
+    @Override
+    public MemberProfile verifyProfile(Long id) {
+        MemberProfile profile = memberProfileRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Member Profile not found"));
+        profile.setVerified(true);
+        return memberProfileRepository.save(profile);
+    }
+
+    @Override
+    public MemberProfile unverifyProfile(Long id) {
+        MemberProfile profile = memberProfileRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Member Profile not found"));
+        profile.setVerified(false);
+        return memberProfileRepository.save(profile);
+    }
 
 }

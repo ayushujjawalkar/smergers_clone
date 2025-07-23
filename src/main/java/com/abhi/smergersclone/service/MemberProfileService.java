@@ -30,5 +30,8 @@ public interface MemberProfileService {
 
     void incrementClick(Long profileId);
 
+    MemberProfile verifyProfile(Long id);
+    MemberProfile unverifyProfile(Long id);
+
 }
 
