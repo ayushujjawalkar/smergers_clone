@@ -73,6 +73,22 @@ public class FranchiseProfileServiceImpl implements FranchiseProfileService {
         return repository.findByInvestmentRange(min, max);
     }
 
+    @Override
+    public FranchiseProfile verifyProfile(Long id) {
+        FranchiseProfile profile = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Franchise Profile not found"));
+        profile.setVerified(true);
+        return repository.save(profile);
+    }
+
+    @Override
+    public FranchiseProfile unverifyProfile(Long id) {
+        FranchiseProfile profile = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Franchise Profile not found"));
+        profile.setVerified(false);
+        return repository.save(profile);
+    }
+
     // ===== Mapping Methods =====
 
     private FranchiseProfile mapToEntity(FranchiseProfileRequestDTO dto) {

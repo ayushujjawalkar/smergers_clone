@@ -16,6 +16,8 @@ public class FranchiseProfile {
 //for filter of investment range
 private Double investmentRangeMin; // Minimum investment
     private Double investmentRangeMax; // Maximum investment
+
+    private boolean verified = false; // ✅ New field
     // ========== Confidential Information Section ==========
     private String authorizedPersonName;
     private String officialEmail;

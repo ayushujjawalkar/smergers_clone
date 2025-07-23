@@ -46,4 +46,7 @@ public interface FranchiseProfileRepository extends JpaRepository<FranchiseProfi
     @Query("SELECT f FROM FranchiseProfile f WHERE " +
             "(f.investmentRangeMin >= :min AND f.investmentRangeMax <= :max)")
     List<FranchiseProfile> findByInvestmentRange(@Param("min") Double min, @Param("max") Double max);
+
+    List<FranchiseProfile> findByVerifiedTrue(); // ✅ To get only verified profiles
+
 }

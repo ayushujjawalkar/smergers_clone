@@ -27,4 +27,8 @@ public interface FranchiseProfileService {
          //for count clicks
         void incrementClick(Long profileId);
     List<FranchiseProfile> filterByInvestmentRange(Double min, Double max);
+
+    //
+    FranchiseProfile verifyProfile(Long id);
+    FranchiseProfile unverifyProfile(Long id);
 }

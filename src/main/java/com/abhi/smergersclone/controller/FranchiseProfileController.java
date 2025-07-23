@@ -86,4 +86,14 @@ public class FranchiseProfileController {
         return ResponseEntity.ok(franchiseProfileService.filterByInvestmentRange(min, max));
     }
 
+    @PutMapping("/{id}/verify")
+    public ResponseEntity<FranchiseProfile> verifyProfile(@PathVariable Long id) {
+        return ResponseEntity.ok(franchiseProfileService.verifyProfile(id));
+    }
+
+    @PutMapping("/{id}/unverify")
+    public ResponseEntity<FranchiseProfile> unverifyProfile(@PathVariable Long id) {
+        return ResponseEntity.ok(franchiseProfileService.unverifyProfile(id));
+    }
+
 }
