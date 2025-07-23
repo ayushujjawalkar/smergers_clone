@@ -103,4 +103,16 @@ public class BusinessProfileController {
 
         return ResponseEntity.ok(filteredProfiles);
     }
+
+    // ✅ Verify profile
+    @PutMapping("/{id}/verify")
+    public ResponseEntity<BusinessProfile> verifyProfile(@PathVariable Long id) {
+        return ResponseEntity.ok(businessProfileService.verifyProfile(id));
+    }
+
+    // ✅ Unverify profile
+    @PutMapping("/{id}/unverify")
+    public ResponseEntity<BusinessProfile> unverifyProfile(@PathVariable Long id) {
+        return ResponseEntity.ok(businessProfileService.unverifyProfile(id));
+    }
 }

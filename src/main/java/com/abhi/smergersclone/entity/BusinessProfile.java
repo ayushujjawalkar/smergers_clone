@@ -29,6 +29,9 @@ public class BusinessProfile {
     private double maxInvestment;
     private Double investmentRequired; // ✅ Is this present?
 
+    //for verify profile
+    private boolean verified = false; // ✅ New field
+
 
 
     @OneToOne(fetch = FetchType.LAZY)

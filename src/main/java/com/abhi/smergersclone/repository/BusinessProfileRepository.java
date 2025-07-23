@@ -27,4 +27,9 @@ public interface BusinessProfileRepository extends JpaRepository<BusinessProfile
     @Query("SELECT b FROM BusinessProfile b WHERE b.investmentRequired BETWEEN :minInvestment AND :maxInvestment")
     List<BusinessProfile> findByInvestmentRange(@Param("minInvestment") Double minInvestment,
                                                 @Param("maxInvestment") Double maxInvestment);
+
+
+//find by verified profile
+    List<BusinessProfile> findByVerifiedTrue(); // For verified profiles only
+
 }

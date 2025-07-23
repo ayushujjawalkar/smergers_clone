@@ -196,4 +196,18 @@ public class BusinessProfileService {
     public List<BusinessProfile> getBusinessesByInvestmentRange(Double minInvestment, Double maxInvestment) {
         return businessProfileRepository.findByInvestmentRange(minInvestment, maxInvestment);
     }
+
+    public BusinessProfile verifyProfile(Long id) {
+        BusinessProfile profile = businessProfileRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Profile not found"));
+        profile.setVerified(true);
+        return businessProfileRepository.save(profile);
+    }
+
+    public BusinessProfile unverifyProfile(Long id) {
+        BusinessProfile profile = businessProfileRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Profile not found"));
+        profile.setVerified(false);
+        return businessProfileRepository.save(profile);
+    }
 }
