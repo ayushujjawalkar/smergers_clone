@@ -73,5 +73,10 @@ public class FranchiseProfileController {
             @RequestParam(required = false) String headquartersLocation) {
         return franchiseProfileService.filterFranchiseProfiles(opportunityType, industry, headquartersLocation);
     }
+    @PostMapping("/{id}/click")
+    public ResponseEntity<String> incrementClick(@PathVariable Long id) {
+        franchiseProfileService.incrementClick(id);
+        return ResponseEntity.ok("Click count updated successfully");
+    }
 
 }

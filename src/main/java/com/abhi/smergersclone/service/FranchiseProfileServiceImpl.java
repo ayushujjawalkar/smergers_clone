@@ -63,6 +63,11 @@ public class FranchiseProfileServiceImpl implements FranchiseProfileService {
         repository.deleteById(id);
     }
 
+    @Override
+    public void incrementClick(Long profileId) {
+        repository.incrementClickCount(profileId);
+    }
+
     // ===== Mapping Methods =====
 
     private FranchiseProfile mapToEntity(FranchiseProfileRequestDTO dto) {

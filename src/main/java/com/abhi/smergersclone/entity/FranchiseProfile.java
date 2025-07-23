@@ -23,6 +23,10 @@ public class FranchiseProfile {
     private String brandName;
     private String website;
 
+    //it id for count clicks
+    private Long clickCount = 0L; // Default 0
+
+
     @Enumerated(EnumType.STRING)
     private OpportunityType opportunityType;
 

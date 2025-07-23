@@ -23,4 +23,8 @@ public interface FranchiseProfileService {
             FranchiseProfile.OpportunityType opportunityType,
             String industry,
             String headquartersLocation);
+
+         //for count clicks
+        void incrementClick(Long profileId);
+
 }

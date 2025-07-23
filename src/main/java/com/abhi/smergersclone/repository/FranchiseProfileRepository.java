@@ -1,6 +1,7 @@
 package com.abhi.smergersclone.repository;
 import com.abhi.smergersclone.entity.FranchiseProfile;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -36,4 +37,8 @@ public interface FranchiseProfileRepository extends JpaRepository<FranchiseProfi
             @Param("opportunityType") FranchiseProfile.OpportunityType opportunityType,
             @Param("industry") String industry,
             @Param("headquartersLocation") String headquartersLocation);
+    //for count clicks
+    @Modifying
+    @Query("UPDATE FranchiseProfile f SET f.clickCount = f.clickCount + 1 WHERE f.id = :id")
+    void incrementClickCount(@Param("id") Long id);
 }
