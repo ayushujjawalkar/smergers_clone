@@ -22,4 +22,9 @@ public interface BusinessProfileRepository extends JpaRepository<BusinessProfile
     @Modifying
     @Query("UPDATE BusinessProfile b SET b.clickCount = b.clickCount + 1 WHERE b.id = :id")
     void incrementClickCount(@Param("id") Long id);
+
+    //for apply filter on investment range  of business list
+    @Query("SELECT b FROM BusinessProfile b WHERE b.investmentRequired BETWEEN :minInvestment AND :maxInvestment")
+    List<BusinessProfile> findByInvestmentRange(@Param("minInvestment") Double minInvestment,
+                                                @Param("maxInvestment") Double maxInvestment);
 }

@@ -192,5 +192,8 @@ public class BusinessProfileService {
     public void incrementClick(Long profileId) {
         businessProfileRepository.incrementClickCount(profileId);
     }
-
+    //for business list by investment range
+    public List<BusinessProfile> getBusinessesByInvestmentRange(Double minInvestment, Double maxInvestment) {
+        return businessProfileRepository.findByInvestmentRange(minInvestment, maxInvestment);
+    }
 }

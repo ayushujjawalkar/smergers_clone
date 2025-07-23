@@ -24,6 +24,13 @@ public class BusinessProfile {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    //for filter of investment range
+    private double minInvestment;
+    private double maxInvestment;
+    private Double investmentRequired; // ✅ Is this present?
+
+
+
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;

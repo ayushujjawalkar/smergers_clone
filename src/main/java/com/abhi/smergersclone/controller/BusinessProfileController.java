@@ -91,4 +91,16 @@ public class BusinessProfileController {
         businessProfileService.incrementClick(id);
         return ResponseEntity.ok("Business profile click count updated successfully");
     }
+
+    // GET /business-profiles/filterByInvestmentRange?minInvestment=500000&maxInvestment=2000000
+    @GetMapping("/filterByInvestmentRange")
+    public ResponseEntity<List<BusinessProfile>> filterByInvestmentRange(
+            @RequestParam Double minInvestment,
+            @RequestParam Double maxInvestment) {
+
+        List<BusinessProfile> filteredProfiles =
+                businessProfileService.getBusinessesByInvestmentRange(minInvestment, maxInvestment);
+
+        return ResponseEntity.ok(filteredProfiles);
+    }
 }
