@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -117,7 +118,7 @@ public class MemberProfileServiceImpl implements MemberProfileService {
                 .map(MemberProfileMapper::mapToResponse)
                 .toList();
     }
-
+    @Transactional
     @Override
     public void incrementClick(Long profileId) {
         memberProfileRepository.incrementClickCount(profileId);

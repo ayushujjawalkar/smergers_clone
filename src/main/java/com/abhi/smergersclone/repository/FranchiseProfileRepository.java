@@ -37,6 +37,7 @@ public interface FranchiseProfileRepository extends JpaRepository<FranchiseProfi
             @Param("opportunityType") FranchiseProfile.OpportunityType opportunityType,
             @Param("industry") String industry,
             @Param("headquartersLocation") String headquartersLocation);
+
     //for count clicks
     @Modifying
     @Query("UPDATE FranchiseProfile f SET f.clickCount = f.clickCount + 1 WHERE f.id = :id")

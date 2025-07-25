@@ -62,7 +62,7 @@ public class FranchiseProfileServiceImpl implements FranchiseProfileService {
         }
         repository.deleteById(id);
     }
-
+    @Transactional
     @Override
     public void incrementClick(Long profileId) {
         repository.incrementClickCount(profileId);
