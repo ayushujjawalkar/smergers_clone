@@ -37,6 +37,18 @@
 	</repositories>
 	<dependencies>
 		<dependency>
+			<groupId>org.apache.httpcomponents.client5</groupId>
+			<artifactId>httpclient5-fluent</artifactId>
+			<version>5.3.1</version> <!-- Or latest -->
+		</dependency>
+
+		<dependency>
+			<groupId>com.twilio.sdk</groupId>
+			<artifactId>twilio</artifactId>
+			<version>9.13.0</version> <!-- Use latest stable -->
+		</dependency>
+
+		<dependency>
 			<groupId>com.github.razorpay</groupId>
 			<artifactId>razorpay-java</artifactId>
 			<version>1.4.4</version> <!-- Latest -->
