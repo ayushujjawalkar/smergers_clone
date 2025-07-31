@@ -5,37 +5,60 @@ import io.github.cdimascio.dotenv.Dotenv;
 import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class TwilioConfig {
     private static final Logger logger = LoggerFactory.getLogger(TwilioConfig.class);
 
+    // Fallback values from application.properties
+    @Value("${twilio.account.sid:}")
+    private String propAccountSid;
+
+    @Value("${twilio.auth.token:}")
+    private String propAuthToken;
+
     @PostConstruct
     public void initTwilio() {
-        // Load environment variables
+        // Try loading from .env file first
         Dotenv dotenv = Dotenv.configure()
-                .directory("./") // Look in project root
+                .directory("./")
                 .ignoreIfMissing()
                 .load();
 
-        String accountSid = dotenv.get("TWILIO_ACCOUNT_SID");
-        String authToken = dotenv.get("TWILIO_AUTH_TOKEN");
+        // Get credentials with priority: .env > system env > properties
+        String accountSid = firstNonNull(
+                dotenv.get("TWILIO_ACCOUNT_SID"),
+                System.getenv("TWILIO_ACCOUNT_SID"),
+                propAccountSid
+        );
 
-        // Verify credentials
+        String authToken = firstNonNull(
+                dotenv.get("TWILIO_AUTH_TOKEN"),
+                System.getenv("TWILIO_AUTH_TOKEN"),
+                propAuthToken
+        );
+
         if (accountSid == null || authToken == null) {
-            logger.error("Twilio credentials missing! Check your .env file");
-            throw new IllegalStateException("Twilio credentials not configured");
+            throw new IllegalStateException("""
+                Twilio credentials not found in:
+                1. .env file
+                2. System environment
+                3. application.properties
+                """);
         }
 
-        // Initialize Twilio
-        try {
-            Twilio.init(accountSid, authToken);
-            logger.info("Twilio initialized successfully with SID: {}...",
-                    accountSid.substring(0, 5));
-        } catch (Exception e) {
-            logger.error("Twilio initialization failed", e);
-            throw e;
+        Twilio.init(accountSid, authToken);
+        logger.info("Twilio initialized with SID: {}...", accountSid.substring(0, 5));
+    }
+
+    private String firstNonNull(String... values) {
+        for (String value : values) {
+            if (value != null && !value.trim().isEmpty()) {
+                return value.trim();
+            }
         }
+        return null;
     }
 }
