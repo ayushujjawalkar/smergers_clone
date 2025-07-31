@@ -2,6 +2,7 @@ package com.abhi.smergersclone.BUSINESS_PROFILE;
 
 import com.abhi.smergersclone.AUTHENTICATION.User;
 import com.abhi.smergersclone.DOCUMENT.Document;
+import com.abhi.smergersclone.ENCRYPTION_DECRYPTION.EncryptedStringConverter;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -79,6 +80,7 @@ public class BusinessProfile {
     private BigDecimal profitMargin;
 
     @Column(length = 1000)
+    @Convert(converter = EncryptedStringConverter.class)
     private String assetsDetails;
 
     private BigDecimal physicalAssetsValue;

@@ -1,4 +1,5 @@
 package com.abhi.smergersclone.FRANCHISE_PROFILE;
+import com.abhi.smergersclone.ENCRYPTION_DECRYPTION.EncryptedStringConverter;
 import jakarta.persistence.*;
 import lombok.Data;
 import java.util.Date;
@@ -18,6 +19,7 @@ private Double investmentRangeMin; // Minimum investment
 
     private boolean verified = false; // ✅ New field
     // ========== Confidential Information Section ==========
+    @Convert(converter = EncryptedStringConverter.class)
     private String authorizedPersonName;
     private String officialEmail;
     private String mobileNumber;
